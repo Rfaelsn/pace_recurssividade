@@ -25,6 +25,8 @@ public interface PautaRepository extends JpaRepository<Pauta, Long> {
 
 	List<Pauta> findAllByMutiraoId(Long mutirao_id);
 
+	List<Pauta> findAllByPautistaId(long PautistaId);
+
 	List<Pauta> findAllByOrderByIdAsc();
 
 	@Query("SELECT pauta FROM Pauta pauta WHERE (:hora is null or pauta.hora = :hora) AND (:vara is null or pauta.vara = :vara) AND (:sala is null or pauta.sala = :sala) AND (:pautista is null or pauta.pautista = :pautista) AND pauta.pautista is not null AND (pauta.data BETWEEN :dataInicial AND :dataFinal) Order by pauta.data ASC, pauta.hora ASC")

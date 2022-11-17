@@ -10,8 +10,8 @@ import com.agu.gestaoescalabackend.repositories.PautistaRepository;
 
 import lombok.AllArgsConstructor;
 
-import org.hibernate.criterion.Example;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -28,12 +28,10 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class PautaService {
-
+	
 	private PautaRepository pautaRepository;
 	
 	private PautistaRepository pautistaRepository;
-	
-	private MutiraoRepository mutiraoRepository;
 	
 	private MutiraoService mutiraoService;
 
@@ -55,8 +53,15 @@ public class PautaService {
 
 	}
 
-	
+	@Transactional
+	public List<PautaDto> findAllByPautistaId(long PautistaId){
 
+		return pautaRepository.findAllByPautistaId(PautistaId)
+				.stream()
+				.map(Pauta::toDto)
+				.collect(Collectors.toList());
+
+	}
 
 	@Transactional(readOnly = true)
 	public Page<Pauta> findByFilters(String hora, String vara, String sala, Long pautista, String dataInicial,
@@ -164,7 +169,7 @@ public class PautaService {
 			if (pautaOptional.isPresent()) {
 				Integer quantidadeDePautas = pautaOptional.get().getMutirao().getQuantidaDePautas();
 				if (quantidadeDePautas == 1) {
-					mutiraoRepository.deleteById(pautaOptional.get().getMutirao().getId());
+					mutiraoService.excluir(pautaOptional.get().getMutirao().getId());
 				}
 			}
 			pautaRepository.deleteById(pautaDeAudienciaId);

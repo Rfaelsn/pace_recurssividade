@@ -29,15 +29,18 @@ import java.util.stream.Collectors;
 
 @SuppressWarnings("ALL")
 @Service
-@AllArgsConstructor
 public class MutiraoService {
 	
+	@Autowired
 	private MutiraoRepository mutiraoRepository;
 	
+	@Autowired
 	private PautaRepository pautaRepository;
 
+	@Autowired
 	private PautaService pautaService;
 		
+	@Autowired
 	private PautistaRepository pautistaRepository;
 
 	private PautistaService pautistaService;
