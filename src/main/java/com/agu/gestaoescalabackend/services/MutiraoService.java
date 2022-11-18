@@ -131,7 +131,7 @@ public class MutiraoService {
 			if (ultimaPauta.temOMesmoPeriodo(pautaAtual)) {
 
 				pautaAtual.setPautista(pautistaAtual);
-				pautistaAtual.atualizarSaldo(1, pautaAtual);
+				pautistaAtual.atualizarSaldo(1);
 			}
 			else {
 				// REORDENA OS PAUTISTAS POR SALDO
@@ -139,7 +139,7 @@ public class MutiraoService {
 
 				pautistaAtual = pegarPautistaDisponivel(pautistaList, pautaAtual);
 				pautaAtual.setPautista(pautistaAtual);
-				pautistaAtual.atualizarSaldo(1, pautaAtual);
+				pautistaAtual.atualizarSaldo(1);
 
 				// ATUALIZA A ÚLTIMA PAUTA
 				ultimaPauta = pautaAtual;
@@ -149,7 +149,7 @@ public class MutiraoService {
 		// DEFINE O STATUS DO MUTIRAO E SALVA A PAUTA
 		mutirao.get().setStatusPauta(StatusPauta.COM_ESCALA);
 
-		return pautaService.save(pautaList);
+		return pautaService.saveAll(pautaList);
 				
 	}
 

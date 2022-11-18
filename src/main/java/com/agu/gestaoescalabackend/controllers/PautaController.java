@@ -73,7 +73,7 @@ public class PautaController {
 
 	@PostMapping
 	public ResponseEntity<List<PautaDto>> save(@RequestBody List<PautaDto> PautaDto) {
-		List<PautaDto> listaPautaDto = pautaService.save(PautaDto);
+		List<PautaDto> listaPautaDto = pautaService.saveAll(PautaDto);
 		if (listaPautaDto == null)
 			return ResponseEntity.status(HttpStatus.CONFLICT).build();
 		return ResponseEntity.ok(listaPautaDto);

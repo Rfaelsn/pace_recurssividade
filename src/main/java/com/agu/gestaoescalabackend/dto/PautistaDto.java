@@ -67,7 +67,7 @@ public class PautistaDto implements Serializable, Comparable<PautistaDto> {
         return Conversor.converter(this, Pautista.class);
     }
 
-    public void atualizarSaldo(int valor, PautaDto pauta){
+    public void atualizarSaldo(int valor){
         this.setSaldo(this.getSaldo() + valor);
         this.setSaldoPeso(this.getSaldo() * this.getPeso());
         /* this.pautas.add(pauta); */

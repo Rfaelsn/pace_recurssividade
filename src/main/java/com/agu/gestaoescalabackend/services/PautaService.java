@@ -131,14 +131,14 @@ public class PautaService {
 	}
 
 	@Transactional
-	public List<PautaDto> save(List<PautaDto> listaPautaDto) {
+	public List<PautaDto> saveAll(List<PautaDto> listaPautaDto) {
 
 		Mutirao mutirao = mutiraoService.save(listaPautaDto).toEntity();
 		for (PautaDto pautaDto : listaPautaDto) {		
 			Pauta pauta = pautaDto.toEntity();
 			pauta.setMutirao(mutirao);
 			if (validarCriacao(pautaDto, pauta)) {
-				pautaRepository.save(pauta).toDto();
+				pautaRepository.save(pauta);
 			}else{
 				mutiraoService.excluir(mutirao.getId());
 				return null;
