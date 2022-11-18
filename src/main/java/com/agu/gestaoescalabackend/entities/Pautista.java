@@ -3,6 +3,7 @@ package com.agu.gestaoescalabackend.entities;
 import com.agu.gestaoescalabackend.dto.PautistaDto;
 import com.agu.gestaoescalabackend.enums.GrupoPautista;
 import com.agu.gestaoescalabackend.enums.StatusPautista;
+import com.agu.gestaoescalabackend.services.PautaService;
 import com.agu.gestaoescalabackend.util.Conversor;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -51,8 +52,8 @@ public class Pautista implements Serializable, Comparable<Pautista> {
     private Integer saldoPeso;
 
     // ATRIBUTOS DE RELACIONAMENTO
-    @OneToMany(mappedBy = "pautista")
-    private List<Pauta> pautas;
+    /* @OneToMany(mappedBy = "pautista")
+    private List<Pauta> pautas; */
 
     /*------------------------------------------------
      METODOS DE CONVERSÃO
@@ -97,17 +98,10 @@ public class Pautista implements Serializable, Comparable<Pautista> {
         return 0;
     }
 
-    public boolean estaDisponivel(LocalDate dataPassada){
-        for (Pauta pauta : this.getPautas())
-            if(pauta.getData().equals(dataPassada))
-                return false;
-        return true;
-    }
-
     public void atualizarSaldo(int valor, Pauta pauta){
         this.setSaldo(this.getSaldo() + valor);
         this.setSaldoPeso(this.getSaldo() * this.getPeso());
-        this.pautas.add(pauta);
+        /* this.pautas.add(pauta); */
     }
 
 }

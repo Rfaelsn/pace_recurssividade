@@ -2,6 +2,7 @@ package com.agu.gestaoescalabackend.services;
 
 import com.agu.gestaoescalabackend.dto.PautaDto;
 import com.agu.gestaoescalabackend.dto.PautistaDto;
+import com.agu.gestaoescalabackend.entities.Pauta;
 import com.agu.gestaoescalabackend.entities.Pautista;
 import com.agu.gestaoescalabackend.enums.GrupoPautista;
 import com.agu.gestaoescalabackend.enums.StatusPautista;
@@ -22,6 +23,17 @@ public class PautistaService {
 
     private PautistaRepository pautistaRepository;
 
+    private PautaService pautaService;
+
+    public boolean estaDisponivel(Pautista pautista, LocalDate dataPassada){
+        List<Pauta> pautas = pautaService.findAllByPautistaId(pautista.getId());
+        for (Pauta pauta : pautas)
+            if(pauta.getData().equals(dataPassada))
+                return false;
+        return true;
+    }
+    
+    
     @Transactional(readOnly = true)
     public List<Pautista> findAll() {
         return pautistaRepository.findAllByOrderBySaldoDesc();
@@ -66,7 +78,7 @@ public class PautistaService {
 
         for (Pautista pautista : pautistaList){
 
-            if (pautista.estaDisponivel(data))
+            if (estaDisponivel(pautista,data))
                 pautistaRetorno.add(pautista);
         }
 

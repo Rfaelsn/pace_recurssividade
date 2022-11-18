@@ -53,7 +53,7 @@ public class PautaService {
 
 	}
 
-	@Transactional
+	/* @Transactional
 	public List<PautaDto> findAllByPautistaId(long PautistaId){
 
 		return pautaRepository.findAllByPautistaId(PautistaId)
@@ -61,6 +61,11 @@ public class PautaService {
 				.map(Pauta::toDto)
 				.collect(Collectors.toList());
 
+	} */
+
+	@Transactional
+	public List<Pauta> findAllByPautistaId(long PautistaId){
+		return pautaRepository.findAllByPautistaId(PautistaId);
 	}
 
 	@Transactional(readOnly = true)

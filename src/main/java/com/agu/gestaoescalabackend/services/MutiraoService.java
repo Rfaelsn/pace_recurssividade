@@ -43,6 +43,7 @@ public class MutiraoService {
 	@Autowired
 	private PautistaRepository pautistaRepository;
 
+	@Autowired
 	private PautistaService pautistaService;
 
 	@Transactional(readOnly = true)
@@ -167,8 +168,8 @@ public class MutiraoService {
 
 		// BUSCA POR UM PAUTISTA DISPONÍVEL E QUE NÃO TRABALHOU NO DIA ANTERIOR
 		for (PautistaDto pautista : pautistaList) {
-			if (pautista.estaDisponivel(pautaAtual.getData())){
-				if (pautista.estaDisponivel(pautaAtual.getData().minusDays(1))){
+			if (pautistaService.estaDisponivel(pautista.toEntity(),pautaAtual.getData())){
+				if (pautistaService.estaDisponivel(pautista.toEntity(),pautaAtual.getData().minusDays(1))){
 					return pautista;
 				}
 			}
@@ -176,7 +177,7 @@ public class MutiraoService {
 
 		// BUSCA SOMENTE POR UM PAUTISTA DISPONÍVEL
 		for (PautistaDto pautista : pautistaList) {
-			if (pautista.estaDisponivel(pautaAtual.getData())) {
+			if (pautistaService.estaDisponivel(pautista.toEntity(),pautaAtual.getData())) {
 				return pautista;
 			}
 		}
