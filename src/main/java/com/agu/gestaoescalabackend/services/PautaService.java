@@ -137,12 +137,12 @@ public class PautaService {
 		for (PautaDto pautaDto : listaPautaDto) {		
 			Pauta pauta = pautaDto.toEntity();
 			pauta.setMutirao(mutirao);
-			if (validarCriacao(pautaDto, pauta)) {
+			/* if (validarCriacao(pautaDto, pauta)) { */
 				pautaRepository.save(pauta);
-			}else{
+			/* }else{
 				mutiraoService.excluir(mutirao.getId());
 				return null;
-			}
+			} */
 		}
 		
 		
