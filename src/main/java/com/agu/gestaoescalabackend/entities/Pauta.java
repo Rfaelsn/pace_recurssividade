@@ -4,10 +4,6 @@ import com.agu.gestaoescalabackend.dto.PautaDto;
 import com.agu.gestaoescalabackend.enums.TipoPauta;
 import com.agu.gestaoescalabackend.enums.TurnoPauta;
 import com.agu.gestaoescalabackend.util.Conversor;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
