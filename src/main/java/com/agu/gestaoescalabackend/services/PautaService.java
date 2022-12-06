@@ -131,18 +131,37 @@ public class PautaService {
 	}
 
 	@Transactional
+	public List<PautaDto> saveAllGeracaoEscala(List<PautaDto> listaPautaDto) {
+
+		Mutirao mutirao = mutiraoService.save(listaPautaDto).toEntity();
+		for (PautaDto pautaDto : listaPautaDto) {		
+			
+			Pauta pauta = pautaDto.toEntity();
+			pauta.setMutirao(mutirao);
+			pautaRepository.save(pauta);
+
+		}
+		
+		
+		return pautaRepository.findAllByMutiraoId(mutirao.getId())
+				.stream()
+				.map(Pauta::toDto)
+				.collect(Collectors.toList());
+	}
+
+	@Transactional
 	public List<PautaDto> saveAll(List<PautaDto> listaPautaDto) {
 
 		Mutirao mutirao = mutiraoService.save(listaPautaDto).toEntity();
 		for (PautaDto pautaDto : listaPautaDto) {		
 			Pauta pauta = pautaDto.toEntity();
 			pauta.setMutirao(mutirao);
-			/* if (validarCriacao(pautaDto, pauta)) { */
+			if (validarCriacao(pautaDto, pauta)) {
 				pautaRepository.save(pauta);
-			/* }else{
+			}else{
 				mutiraoService.excluir(mutirao.getId());
 				return null;
-			} */
+			}
 		}
 		
 		

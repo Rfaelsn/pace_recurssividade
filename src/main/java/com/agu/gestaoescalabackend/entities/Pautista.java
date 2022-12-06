@@ -52,8 +52,8 @@ public class Pautista implements Serializable, Comparable<Pautista> {
     private Integer saldoPeso;
 
     // ATRIBUTOS DE RELACIONAMENTO
-    @OneToMany(mappedBy = "pautista")
-    private List<Pauta> pautas;
+    /* @OneToMany(mappedBy = "pautista")
+    private List<Pauta> pautas; */
 
     /*------------------------------------------------
      METODOS DE CONVERSÃO

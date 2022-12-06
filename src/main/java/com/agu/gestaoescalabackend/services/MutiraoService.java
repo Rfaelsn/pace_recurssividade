@@ -149,7 +149,7 @@ public class MutiraoService {
 		// DEFINE O STATUS DO MUTIRAO E SALVA A PAUTA
 		mutirao.get().setStatusPauta(StatusPauta.COM_ESCALA);
 
-		return pautaService.saveAll(pautaList);
+		return pautaService.saveAllGeracaoEscala(pautaList);
 				
 	}
 
