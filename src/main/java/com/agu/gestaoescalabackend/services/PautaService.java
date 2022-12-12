@@ -132,21 +132,14 @@ public class PautaService {
 
 	@Transactional
 	public List<PautaDto> saveAllGeracaoEscala(List<PautaDto> listaPautaDto) {
+		List <Pauta> pautaListEntity = listaPautaDto.stream()
+		.map(PautaDto::toEntity)
+		.collect(Collectors.toList());
 
-		Mutirao mutirao = mutiraoService.save(listaPautaDto).toEntity();
-		for (PautaDto pautaDto : listaPautaDto) {		
-			
-			Pauta pauta = pautaDto.toEntity();
-			pauta.setMutirao(mutirao);
-			pautaRepository.save(pauta);
-
-		}
-		
-		
-		return pautaRepository.findAllByMutiraoId(mutirao.getId())
-				.stream()
-				.map(Pauta::toDto)
-				.collect(Collectors.toList());
+		return pautaRepository.saveAll(pautaListEntity)
+		.stream()
+		.map(Pauta::toDto)
+		.collect(Collectors.toList());
 	}
 
 	@Transactional

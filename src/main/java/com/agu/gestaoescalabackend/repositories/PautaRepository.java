@@ -42,6 +42,8 @@ public interface PautaRepository extends JpaRepository<Pauta, Long> {
 
 	Optional<Pauta> findByProcessoAndData(String processo, LocalDate data);
 
+	List<Pauta> findByProcessoAndDataAndHora(String processo, LocalDate data, String hora);
+
 	boolean existsByProcessoAndDataAndHora(String processo, LocalDate data, String hora);
 
 	@Modifying
