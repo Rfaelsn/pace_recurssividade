@@ -50,10 +50,11 @@ public class Pauta implements Serializable {
 	private TurnoPauta turnoPauta;
 
 	// ATRIBUTOS DE RELACIONAMENTO
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "pautista_id")
+
 	private Pautista pautista;
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "mutirao_id")
 	private Mutirao mutirao;
 
