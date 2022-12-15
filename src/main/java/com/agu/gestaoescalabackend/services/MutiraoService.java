@@ -26,6 +26,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @SuppressWarnings("ALL")
 @Service
@@ -120,10 +121,12 @@ public class MutiraoService {
 
 		// INSTANCIA A LISTA DE OBJETOS
 		List<PautaDto> pautaList = pautaService.findAllByMutiraoId(mutiraoId);
+		List<Pauta> pautaListTest = pautaList.stream()
+		.map(PautaDto::toEntity)
+		.collect(Collectors.toList());
 		List<PautistaDto> pautistaList = retornarListaDe(grupoPautista);
 		PautaDto ultimaPauta = pautaList.get(0);
-		PautistaDto pautistaAtual = pegarPautistaDisponivel(pautistaList, ultimaPauta);
-
+		PautistaDto pautistaAtual = pegarPautistaDisponivel(pautistaList,ultimaPauta,pautaListTest);
 		// EFETUA AS OPERAÇÕES PARA CADA PAUTA
 		for (PautaDto pautaAtual : pautaList) {
 
@@ -137,7 +140,7 @@ public class MutiraoService {
 				// REORDENA OS PAUTISTAS POR SALDO
 				Collections.sort(pautistaList);
 
-				pautistaAtual = pegarPautistaDisponivel(pautistaList, pautaAtual);
+				pautistaAtual = pegarPautistaDisponivel(pautistaList, pautaAtual, pautaListTest);
 				pautaAtual.setPautista(pautistaAtual);
 				pautistaAtual.atualizarSaldo(1);
 
@@ -164,12 +167,12 @@ public class MutiraoService {
 				StatusPautista.ATIVO);
 	}
 
-	private PautistaDto pegarPautistaDisponivel(List<PautistaDto> pautistaList, PautaDto pautaAtual) {
+	private PautistaDto pegarPautistaDisponivel(List<PautistaDto> pautistaList, PautaDto pautaAtual,List<Pauta> listaPautasTeste) {
 
 		// BUSCA POR UM PAUTISTA DISPONÍVEL E QUE NÃO TRABALHOU NO DIA ANTERIOR
 		for (PautistaDto pautista : pautistaList) {
-			if (pautistaService.estaDisponivel(pautista.toEntity(),pautaAtual.getData())){
-				if (pautistaService.estaDisponivel(pautista.toEntity(),pautaAtual.getData().minusDays(1))){
+			if (pautistaService.estaDisponivel(pautista.toEntity(),pautaAtual.getData(),listaPautasTeste)){
+				if (pautistaService.estaDisponivel(pautista.toEntity(),pautaAtual.getData().minusDays(1),listaPautasTeste)){
 					return pautista;
 				}
 			}
@@ -177,7 +180,7 @@ public class MutiraoService {
 
 		// BUSCA SOMENTE POR UM PAUTISTA DISPONÍVEL
 		for (PautistaDto pautista : pautistaList) {
-			if (pautistaService.estaDisponivel(pautista.toEntity(),pautaAtual.getData())) {
+			if (pautistaService.estaDisponivel(pautista.toEntity(),pautaAtual.getData(),listaPautasTeste)) {
 				return pautista;
 			}
 		}

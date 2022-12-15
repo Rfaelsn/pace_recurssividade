@@ -25,6 +25,15 @@ public class PautistaService {
 
     private PautaService pautaService;
 
+    public boolean estaDisponivel(Pautista pautista, LocalDate dataPassada,List<Pauta> pautaList){
+        List<Pauta> pautas = pautaService.findAllByPautistaId(pautista.getId());
+        pautas.addAll(pautaList);
+        for (Pauta pauta : pautas)
+            if(pauta.getData().equals(dataPassada))
+                return false;
+        return true;
+    }
+
     public boolean estaDisponivel(Pautista pautista, LocalDate dataPassada){
         List<Pauta> pautas = pautaService.findAllByPautistaId(pautista.getId());
         for (Pauta pauta : pautas)
