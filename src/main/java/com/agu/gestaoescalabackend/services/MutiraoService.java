@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -121,13 +122,13 @@ public class MutiraoService {
 
 		// INSTANCIA A LISTA DE OBJETOS
 		List<PautaDto> pautaList = pautaService.findAllByMutiraoId(mutiraoId);
-		List<Pauta> pautaListTest = pautaList.stream()
-		.map(PautaDto::toEntity)
-		.collect(Collectors.toList());
+		List<PautaDto> pautaListTest = new ArrayList<>();
 		List<PautistaDto> pautistaList = retornarListaDe(grupoPautista);
+		/* PautaDto ultimaPauta = pautaList.get(pautaList.size()-1); */
 		PautaDto ultimaPauta = pautaList.get(0);
 		PautistaDto pautistaAtual = pegarPautistaDisponivel(pautistaList,ultimaPauta,pautaListTest);
 		// EFETUA AS OPERAÇÕES PARA CADA PAUTA
+
 		for (PautaDto pautaAtual : pautaList) {
 
 			// VERIFICA SE A SALA, DIA OU TURNO MUDARAM
@@ -147,6 +148,8 @@ public class MutiraoService {
 				// ATUALIZA A ÚLTIMA PAUTA
 				ultimaPauta = pautaAtual;
 			}
+			pautaListTest.add(pautaAtual);
+			
 		}
 
 		// DEFINE O STATUS DO MUTIRAO E SALVA A PAUTA
@@ -167,8 +170,7 @@ public class MutiraoService {
 				StatusPautista.ATIVO);
 	}
 
-	private PautistaDto pegarPautistaDisponivel(List<PautistaDto> pautistaList, PautaDto pautaAtual,List<Pauta> listaPautasTeste) {
-
+	private PautistaDto pegarPautistaDisponivel(List<PautistaDto> pautistaList, PautaDto pautaAtual,List<PautaDto> listaPautasTeste) {
 		// BUSCA POR UM PAUTISTA DISPONÍVEL E QUE NÃO TRABALHOU NO DIA ANTERIOR
 		for (PautistaDto pautista : pautistaList) {
 			if (pautistaService.estaDisponivel(pautista.toEntity(),pautaAtual.getData(),listaPautasTeste)){
