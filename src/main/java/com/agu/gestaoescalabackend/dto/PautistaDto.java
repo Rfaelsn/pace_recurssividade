@@ -56,8 +56,7 @@ public class PautistaDto implements Serializable, Comparable<PautistaDto> {
     private Integer saldoPeso;
 
     // ATRIBUTOS DE RELACIONAMENTO
-    /* @JsonBackReference
-    private List<PautaDto> pautas; */
+    private List<PautaOnlyDto> pautas;
 
     /*------------------------------------------------
      METODOS DE CONVERSÃO
@@ -67,10 +66,10 @@ public class PautistaDto implements Serializable, Comparable<PautistaDto> {
         return Conversor.converter(this, Pautista.class);
     }
 
-    public void atualizarSaldo(int valor){
+    public void atualizarSaldo(int valor, PautaOnlyDto pauta){
         this.setSaldo(this.getSaldo() + valor);
         this.setSaldoPeso(this.getSaldo() * this.getPeso());
-        /* this.pautas.add(pauta); */
+        this.pautas.add(pauta);
     }
 
     @Override

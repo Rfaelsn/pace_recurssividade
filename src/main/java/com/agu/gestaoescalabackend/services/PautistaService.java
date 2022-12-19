@@ -1,6 +1,7 @@
 package com.agu.gestaoescalabackend.services;
 
 import com.agu.gestaoescalabackend.dto.PautaDto;
+import com.agu.gestaoescalabackend.dto.PautaOnlyDto;
 import com.agu.gestaoescalabackend.dto.PautistaDto;
 import com.agu.gestaoescalabackend.entities.Pauta;
 import com.agu.gestaoescalabackend.entities.Pautista;
@@ -25,25 +26,10 @@ public class PautistaService {
 
     private PautaService pautaService;
 
-    public boolean estaDisponivel(Pautista pautista, LocalDate dataPassada,List<PautaDto> pautaList){
-        List<PautaDto> pautas = pautaService.findAllByPautistaId(pautista.getId())
-        .stream()
-        .map(Pauta::toDto)
-        .collect(Collectors.toList());
-        pautas.addAll(pautaList);
-        for (PautaDto pauta : pautas){
-            if(pauta.getData().equals(dataPassada)){
-                return false;
-            }   
-        }
-        return true;
-            
-        
-    }
-
-    public boolean estaDisponivel(Pautista pautista, LocalDate dataPassada){
-        List<Pauta> pautas = pautaService.findAllByPautistaId(pautista.getId());
-        for (Pauta pauta : pautas)
+    public boolean estaDisponivel(PautistaDto pautista, LocalDate dataPassada){
+        List<PautaOnlyDto> pautas = pautaService.findAllPautaOnlyByPautistaId(pautista.getId());
+        pautas.addAll(pautista.getPautas());
+        for (PautaOnlyDto pauta : pautista.getPautas())
             if(pauta.getData().equals(dataPassada))
                 return false;
         return true;
@@ -94,7 +80,7 @@ public class PautistaService {
 
         for (Pautista pautista : pautistaList){
 
-            if (estaDisponivel(pautista,data))
+            if (estaDisponivel(pautista.toDto(),data))
                 pautistaRetorno.add(pautista);
         }
 

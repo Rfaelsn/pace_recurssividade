@@ -1,6 +1,7 @@
 package com.agu.gestaoescalabackend.services;
 
 import com.agu.gestaoescalabackend.dto.PautaDto;
+import com.agu.gestaoescalabackend.dto.PautaOnlyDto;
 import com.agu.gestaoescalabackend.entities.Mutirao;
 import com.agu.gestaoescalabackend.entities.Pauta;
 import com.agu.gestaoescalabackend.entities.Pautista;
@@ -67,6 +68,15 @@ public class PautaService {
 	public List<Pauta> findAllByPautistaId(long PautistaId){
 		return pautaRepository.findAllByPautistaId(PautistaId);
 	}
+
+	@Transactional
+	public List<PautaOnlyDto> findAllPautaOnlyByPautistaId(long PautistaId){
+		return pautaRepository.findAllByPautistaId(PautistaId)
+				.stream()
+				.map(Pauta::toPautaOnlyDto)
+				.collect(Collectors.toList());
+	}
+
 
 	@Transactional(readOnly = true)
 	public Page<Pauta> findByFilters(String hora, String vara, String sala, Long pautista, String dataInicial,
