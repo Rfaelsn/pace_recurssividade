@@ -27,7 +27,7 @@ public class PautistaService {
     private PautaService pautaService;
 
     public boolean estaDisponivel(PautistaDto pautista, LocalDate dataPassada){
-        List<PautaOnlyDto> pautas = pautaService.findAllPautaOnlyByPautistaId(pautista.getId());
+        List<PautaOnlyDto> pautas = pautaService.findByPautistaAndMes(pautista.getId(),dataPassada);
         pautas.addAll(pautista.getPautas());
         for (PautaOnlyDto pauta : pautista.getPautas())
             if(pauta.getData().equals(dataPassada))

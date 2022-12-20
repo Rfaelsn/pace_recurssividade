@@ -21,6 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 import static java.time.temporal.TemporalAdjusters.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -75,6 +77,15 @@ public class PautaService {
 				.stream()
 				.map(Pauta::toPautaOnlyDto)
 				.collect(Collectors.toList());
+	}
+
+	@Transactional
+	public List<PautaOnlyDto> findByPautistaAndMes(Long PautistaId, LocalDate data){
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/YYYY");
+		List<Pauta> pautasPautista = pautaRepository.findByPautistaAndMes(PautistaId, data.format(formatter));
+		return pautasPautista.stream()
+		.map(Pauta::toPautaOnlyDto)
+		.collect(Collectors.toList());
 	}
 
 
