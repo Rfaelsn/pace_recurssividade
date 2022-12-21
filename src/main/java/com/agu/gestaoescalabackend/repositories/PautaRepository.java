@@ -28,8 +28,7 @@ public interface PautaRepository extends JpaRepository<Pauta, Long> {
 
 	List<Pauta> findAllByPautistaId(long PautistaId);
 
-	@Query(value = "select * from tb_pauta where TO_CHAR(data, 'MM/YYYY') = '':mes' and :id;", nativeQuery = true)
-	List<Pauta> findByPautistaAndMes(@Param("id") Long PautistaId, @Param("mes") String mes);
+	boolean existsByPautistaAndData(Pautista pautista, LocalDate data);
 
 	List<Pauta> findAllByOrderByIdAsc();
 

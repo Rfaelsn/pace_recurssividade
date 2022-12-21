@@ -2,6 +2,7 @@ package com.agu.gestaoescalabackend.services;
 
 import com.agu.gestaoescalabackend.dto.PautaDto;
 import com.agu.gestaoescalabackend.dto.PautaOnlyDto;
+import com.agu.gestaoescalabackend.dto.PautistaDto;
 import com.agu.gestaoescalabackend.entities.Mutirao;
 import com.agu.gestaoescalabackend.entities.Pauta;
 import com.agu.gestaoescalabackend.entities.Pautista;
@@ -80,12 +81,8 @@ public class PautaService {
 	}
 
 	@Transactional
-	public List<PautaOnlyDto> findByPautistaAndMes(Long PautistaId, LocalDate data){
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/YYYY");
-		List<Pauta> pautasPautista = pautaRepository.findByPautistaAndMes(PautistaId, data.format(formatter));
-		return pautasPautista.stream()
-		.map(Pauta::toPautaOnlyDto)
-		.collect(Collectors.toList());
+	public boolean existsByPautistaAndData(PautistaDto pautista, LocalDate data){
+		return pautaRepository.existsByPautistaAndData(pautista.toEntity(), data);
 	}
 
 

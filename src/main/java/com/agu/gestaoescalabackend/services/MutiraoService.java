@@ -163,8 +163,9 @@ public class MutiraoService {
 	------------------------------------------------*/
 
 	private List<PautistaDto> retornarListaDe(GrupoPautista grupoPautista) {
-		if (grupoPautista.equals(GrupoPautista.PROCURADOR) || grupoPautista.equals(GrupoPautista.PREPOSTO))
+		if (grupoPautista.equals(GrupoPautista.PROCURADOR) || grupoPautista.equals(GrupoPautista.PREPOSTO)){
 			return pautistaService.findAllByGrupoPautistaAndStatusPautistaOrderBySaldoPesoAsc(grupoPautista, StatusPautista.ATIVO);
+		}
 			return pautistaService.findAllByStatusPautistaOrderBySaldoPesoAsc(
 				StatusPautista.ATIVO);
 	}

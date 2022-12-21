@@ -7,6 +7,8 @@ import com.agu.gestaoescalabackend.enums.StatusPautista;
 import com.agu.gestaoescalabackend.services.PautaService;
 import com.agu.gestaoescalabackend.util.Conversor;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,6 +30,7 @@ import java.util.stream.Collectors;
 @Setter
 @ToString
 @NoArgsConstructor
+@AllArgsConstructor
 public class PautistaDto implements Serializable, Comparable<PautistaDto> {
     private static final long serialVersionUID = 1L;
 
@@ -56,7 +60,7 @@ public class PautistaDto implements Serializable, Comparable<PautistaDto> {
     private Integer saldoPeso;
 
     // ATRIBUTOS DE RELACIONAMENTO
-    private List<PautaOnlyDto> pautas;
+    private List<PautaOnlyDto> pautas = new ArrayList<>();
 
     /*------------------------------------------------
      METODOS DE CONVERSÃO
@@ -82,4 +86,20 @@ public class PautistaDto implements Serializable, Comparable<PautistaDto> {
         return 0;
     }
 
+    /* ----------------------------------------
+        MÉTODOS CONSTRUTORES 
+    ------------------------------------------*/
+
+    public PautistaDto(Long id, String nome,GrupoPautista grupoPautista,StatusPautista statusPautista,LocalDate dataInicial, LocalDate dataFinal, Integer saldo, Integer peso, Integer saldoPeso){
+
+        this.id = id;
+        this.nome = nome;
+        this.grupoPautista = grupoPautista;
+        this.statusPautista = statusPautista;
+        this.dataInicial = dataInicial;
+        this.dataFinal = dataFinal;
+        this.saldo = saldo;
+        this.peso = peso;
+        this.saldoPeso = saldoPeso;
+    }
 }

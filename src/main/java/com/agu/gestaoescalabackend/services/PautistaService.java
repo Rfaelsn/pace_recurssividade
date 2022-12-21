@@ -27,12 +27,18 @@ public class PautistaService {
     private PautaService pautaService;
 
     public boolean estaDisponivel(PautistaDto pautista, LocalDate dataPassada){
-        List<PautaOnlyDto> pautas = pautaService.findByPautistaAndMes(pautista.getId(),dataPassada);
-        pautas.addAll(pautista.getPautas());
-        for (PautaOnlyDto pauta : pautista.getPautas())
-            if(pauta.getData().equals(dataPassada))
+        if (pautaService.existsByPautistaAndData(pautista, dataPassada)) {
+            return false;
+        }
+
+        for (PautaOnlyDto pauta : pautista.getPautas()){
+            if(pauta.getData().equals(dataPassada)){
                 return false;
+            }
+        }
+
         return true;
+        
     }
     
     
@@ -54,7 +60,7 @@ public class PautistaService {
 		
 		return pautistaRepository.findAllByGrupoPautistaAndStatusPautistaOrderBySaldoPesoAsc(grupoPautista, StatusPautista.ATIVO)
             .stream()
-            .map(Pautista::toDto)
+            .map(Pautista::toNotListPautaDto)
             .collect(Collectors.toList());
 	}
 
@@ -63,7 +69,7 @@ public class PautistaService {
 		
 		return pautistaRepository.findAllByStatusPautistaOrderBySaldoPesoAsc(StatusPautista.ATIVO)
             .stream()
-            .map(Pautista::toDto)
+            .map(Pautista::toNotListPautaDto)
             .collect(Collectors.toList());
 	}
 

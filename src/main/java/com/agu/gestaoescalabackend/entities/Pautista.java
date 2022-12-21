@@ -63,6 +63,12 @@ public class Pautista implements Serializable, Comparable<Pautista> {
         return Conversor.converter(this, PautistaDto.class);
     }
 
+    public PautistaDto toNotListPautaDto(){
+        return new PautistaDto(
+            id, nome, grupoPautista, statusPautista, dataInicial,dataFinal,saldo,peso,saldoPeso
+        );
+    }
+
     /*------------------------------------------------
     METODOS DE CRUD
     ------------------------------------------------*/
