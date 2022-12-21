@@ -171,22 +171,23 @@ public class MutiraoService {
 	}
 
 	private PautistaDto pegarPautistaDisponivel(List<PautistaDto> pautistaList, PautaDto pautaAtual) {
-		// BUSCA POR UM PAUTISTA DISPONÍVEL E QUE NÃO TRABALHOU NO DIA ANTERIOR
+		
+		PautistaDto pautistaDisponivel = new PautistaDto();
+
 		for (PautistaDto pautista : pautistaList) {
-			if (pautistaService.estaDisponivel(pautista,pautaAtual.getData())){
-				if (pautistaService.estaDisponivel(pautista,pautaAtual.getData().minusDays(1))){
-					return pautista;
-				}
+			// BUSCA POR UM PAUTISTA DISPONÍVEL E QUE NÃO TRABALHOU NO DIA ANTERIOR
+			if (pautistaService.estaDisponivel(pautista,pautaAtual.getData()) && pautistaService.estaDisponivel(pautista,pautaAtual.getData().minusDays(1))){
+				return pautista;
+				
+			// BUSCA SOMENTE POR UM PAUTISTA DISPONÍVEL
+			}else if (pautistaService.estaDisponivel(pautista,pautaAtual.getData())){
+				pautistaDisponivel = pautista;
 			}
+			
 		}
 
-		// BUSCA SOMENTE POR UM PAUTISTA DISPONÍVEL
-		for (PautistaDto pautista : pautistaList) {
-			if (pautistaService.estaDisponivel(pautista,pautaAtual.getData())) {
-				return pautista;
-			}
-		}
-		return null;
+		return pautistaDisponivel;
+		
 	}
 
 	/*------------------------------------------------
