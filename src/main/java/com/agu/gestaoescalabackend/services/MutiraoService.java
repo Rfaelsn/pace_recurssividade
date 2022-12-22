@@ -16,13 +16,11 @@ import com.agu.gestaoescalabackend.enums.StatusPautista;
 import com.agu.gestaoescalabackend.repositories.MutiraoRepository;
 import com.agu.gestaoescalabackend.repositories.PautaRepository;
 import com.agu.gestaoescalabackend.repositories.PautistaRepository;
-import lombok.AllArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -127,7 +125,7 @@ public class MutiraoService {
 		PautaDto ultimaPauta = pautaList.get(0);
 		PautistaDto pautistaAtual = pegarPautistaDisponivel(pautistaList,ultimaPauta);
 		// EFETUA AS OPERAÇÕES PARA CADA PAUTA
-
+		
 		for (PautaDto pautaAtual : pautaList) {
 
 			// VERIFICA SE A SALA, DIA OU TURNO MUDARAM
@@ -147,7 +145,6 @@ public class MutiraoService {
 				// ATUALIZA A ÚLTIMA PAUTA
 				ultimaPauta = pautaAtual;
 			}
-			
 			
 		}
 
