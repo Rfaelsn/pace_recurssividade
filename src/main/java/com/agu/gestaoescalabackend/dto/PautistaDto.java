@@ -23,7 +23,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 
 @Getter
@@ -78,12 +78,14 @@ public class PautistaDto implements Serializable, Comparable<PautistaDto> {
 
     @Override
     public int compareTo(PautistaDto outroPautista) {
-        if (this.saldoPeso < outroPautista.saldoPeso) {
+        if (this.getStatusPautista().equals(statusPautista.ATIVO) && this.getSaldo() > outroPautista.getSaldo()) {
             return -1;
-        } else if (this.saldoPeso > outroPautista.saldoPeso) {
+        }else if(this.getStatusPautista().equals(statusPautista.ATIVO) && this.getSaldo() < outroPautista.getSaldo()){
             return 1;
+        }else{
+            return 0;
         }
-        return 0;
+        
     }
 
     /* ----------------------------------------
@@ -102,4 +104,6 @@ public class PautistaDto implements Serializable, Comparable<PautistaDto> {
         this.peso = peso;
         this.saldoPeso = saldoPeso;
     }
+
+    
 }
