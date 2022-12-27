@@ -78,9 +78,9 @@ public class PautistaDto implements Serializable, Comparable<PautistaDto> {
 
     @Override
     public int compareTo(PautistaDto outroPautista) {
-        if (this.getStatusPautista().equals(statusPautista.ATIVO) && this.getSaldo() > outroPautista.getSaldo()) {
+        if (this.getSaldo() < outroPautista.getSaldo()) {
             return -1;
-        }else if(this.getStatusPautista().equals(statusPautista.ATIVO) && this.getSaldo() < outroPautista.getSaldo()){
+        }else if(this.getSaldo() > outroPautista.getSaldo()){
             return 1;
         }else{
             return 0;

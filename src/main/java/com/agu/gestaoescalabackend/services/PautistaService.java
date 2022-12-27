@@ -80,15 +80,30 @@ public class PautistaService {
         statusPautistas.add(StatusPautista.ATIVO);
         statusPautistas.add(StatusPautista.INATIVO);
 
-        // Busca todos os pautistas ativos no banco
-        List<PautistaDto> pautistaList = pautistaRepository.findAllByStatusPautistaInOrderByNomeAsc(statusPautistas)
+        // Busca todos os pautistas ativos no banco transformando em DTO sem a lista de Pautas
+        List<PautistaDto> pautistaList = pautistaRepository.findAllByStatusPautistaInOrderByNomeAsc (statusPautistas)
         .stream()
         .map(Pautista::toNotListPautaDto)
         .collect(Collectors.toList());
-        Collections.sort(pautistaList);
+
+        //filtra apenas os ativos ordenando do menor para maior saldo
+        List<PautistaDto> pautistaAtivo = pautistaList.stream()
+        .filter(s -> s.getStatusPautista().equals(StatusPautista.ATIVO))
+        .collect(Collectors.toList());
+        Collections.sort(pautistaAtivo);
+
+        //filtra apenas os inativos ordando do menor para maior saldo
+        List<PautistaDto> pautistaInativo = pautistaList.stream()
+        .filter(s -> s.getStatusPautista().equals(StatusPautista.INATIVO))
+        .collect(Collectors.toList());
+        Collections.sort(pautistaInativo);
+
+        //soma as duas listas ordenadas
+        pautistaAtivo.addAll(pautistaInativo);
+
         List<PautistaDto> pautistaRetorno = new ArrayList<>();
         
-        for (PautistaDto pautista : pautistaList){
+        for (PautistaDto pautista : pautistaAtivo){
 
             if (estaDisponivel(pautista,data)){
                 pautistaRetorno.add(pautista);
